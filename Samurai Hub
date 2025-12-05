@@ -1,0 +1,56 @@
+local allowed = {
+    [YOUR_USER_ID] = true,   -- Put your UserId here
+    [FRIEND_USER_ID] = true, -- Add more if your team needs access
+}
+
+local player = game.Players.LocalPlayer
+if not allowed[player.UserId] then return end
+
+-- Create a simple UI
+local screenGui = Instance.new("ScreenGui", player.PlayerGui)
+screenGui.Name = "DevTesting"
+
+local function makeButton(text, position)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0, 200, 0, 40)
+    btn.Position = position
+    btn.Text = text
+    btn.Parent = screenGui
+    btn.BackgroundColor3 = Color3.new(0.1,0.1,0.1)
+    btn.TextColor3 = Color3.new(1,1,1)
+    btn.BorderSizePixel = 0
+    return btn
+end
+
+-- Auto Dash button
+local dashBtn = makeButton("Auto Dash", UDim2.new(0, 20, 0, 20))
+dashBtn.MouseButton1Click:Connect(function()
+    local char = player.Character
+    if char then
+        char.HumanoidRootPart.Velocity = Vector3.new(100,0,0) -- Dash forward
+    end
+end)
+
+-- Auto Jump button
+local jumpBtn = makeButton("Auto Jump", UDim2.new(0, 20, 0, 70))
+jumpBtn.MouseButton1Click:Connect(function()
+    local hum = player.Character and player.Character:FindFirstChild("Humanoid")
+    if hum then
+        hum.Jump = true
+    end
+end)
+
+-- Auto Crouch button (if your game has a crouch system)
+local crouchBtn = makeButton("Auto Crouch", UDim2.new(0, 20, 0, 120))
+crouchBtn.MouseButton1Click:Connect(function()
+    -- Insert your crouch system logic here, such as changing height
+    print("Auto crouch triggered (needs to be connected to your game's crouch system)")
+end)
+
+-- Auto Emote button
+local emoteBtn = makeButton("Auto Emote", UDim2.new(0, 20, 0, 170))
+emoteBtn.MouseButton1Click:Connect(function()
+    game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
+        Text = "Emote system triggered (needs to be linked to your game's emotes)"
+    })
+end)
